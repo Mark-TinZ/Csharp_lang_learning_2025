@@ -44,26 +44,26 @@ namespace lab1
 		{
 			// Console.WriteLine("(X+Y)/Z+sqrt(X)");
 			// Инициализируем, для области видимости
-			double dX, dY, dZ;
+			double fX, fY, fZ;
 
 			// Проверка на недопустимые значения в формуле
 			while (true)
 			{
-				dX = SafeReadDouble("X = ");
-				if (dX < 0)
+				fX = SafeReadDouble("X = ");
+				if (fX < 0)
 				{
 					Console.WriteLine("Error: X can't be < 0");
 					continue;
 				}
 				break;
 			}
-			dY = SafeReadDouble("Y = ");
+			fY = SafeReadDouble("Y = ");
 
 			// Проверка на недопустимые значения в формуле
 			while (true)
 			{
-				dZ = SafeReadDouble("Z = ");
-				if (dZ == 0)
+				fZ = SafeReadDouble("Z = ");
+				if (fZ == 0)
 				{
 					Console.WriteLine("Error: Z can't be == 0");
 					continue;
@@ -71,7 +71,7 @@ namespace lab1
 				break;
 			}
 
-			double dValue = (dX + dY) / dZ + Math.Sqrt(dX);
+			double dValue = (fX + fY) / fZ + Math.Sqrt(fX);
 
 			Console.WriteLine($"{dValue:F3}");
 		}
@@ -100,10 +100,10 @@ namespace lab1
 				if (!string.IsNullOrEmpty(message)) { Console.Write(message + " "); }
 
 				string sValue = Console.ReadLine();
-				double dValue = 0;
-				if (Double.TryParse(sValue, out dValue))
+				double fValue = 0;
+				if (Double.TryParse(sValue, out fValue))
 				{
-					return dValue;
+					return fValue;
 				}
 
 				Console.WriteLine("Parse error. Please enter a valid number.");
