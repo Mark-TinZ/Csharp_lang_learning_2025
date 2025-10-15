@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace lab1
 {
@@ -17,7 +18,10 @@ namespace lab1
 						Console.WriteLine("Hello World!");
 						break;
 					case 2:
-						formulaCalculation();
+						CalcFormula();
+						break;
+					case 3:
+						RecursionDate();
 						break;
 					default:
 						Console.WriteLine("Error choise");
@@ -32,6 +36,7 @@ namespace lab1
 			Console.WriteLine("[0] Exit");
 			Console.WriteLine("[1] Hello World!");
 			Console.WriteLine("[2] Calc: (X+Y)/Z+sqrt(X)");
+			Console.WriteLine("[3] Recursion date");
 			// int iMenu = Convert.ToInt32(Console.ReadLine());
 			int iMenu = SafeReadInteger(">>");
 
@@ -40,7 +45,7 @@ namespace lab1
 			return iMenu;
 		}
 
-		private static void formulaCalculation()
+		private static void CalcFormula()
 		{
 			// Console.WriteLine("(X+Y)/Z+sqrt(X)");
 			// Инициализируем, для области видимости
@@ -76,6 +81,63 @@ namespace lab1
 			Console.WriteLine($"{dValue:F3}");
 		}
 
+		private static void RecursionDate()
+		{
+			DateTime dtFirstStart = SafeReadDate("Enter first start date");
+			DateTime dtFirstEnd = SafeReadDate("Enter first end date");
+
+			if (dtFirstStart > dtFirstEnd)
+			{
+				Console.WriteLine("error: first date > end date");
+				return;
+			}
+
+			DateTime dtSecondStart = SafeReadDate("Enter second start date");
+			DateTime dtSecondEnd = SafeReadDate("Enter second end date");
+
+			if (dtSecondStart > dtSecondEnd)
+			{
+				Console.WriteLine("error: first date > end date");
+				return;
+			}
+
+			int iOverlapDays = CalculateOverlapDays(dtFirstStart, dtFirstEnd, dtSecondStart, dtSecondEnd);
+			Console.WriteLine("N = " + iOverlapDays);
+
+			if (iOverlapDays > 10000)
+			{
+				Console.WriteLine("Что с дубу рухнулся " + iOverlapDays + " считать?");
+				return;
+			}
+
+			if (iOverlapDays < 0)
+			{
+				Console.WriteLine("Error: N can't be negative");
+			}
+
+			long lSum = CalculateNaturalSum(iOverlapDays);
+			Console.WriteLine("Sum natural number to " + iOverlapDays + " is " + lSum);
+		}
+
+		private static int CalculateOverlapDays(DateTime dtFirstStart, DateTime dtFirstEnd, DateTime dtSecondStart, DateTime dtSecondEnd)
+		{
+			DateTime dtOverlapStart = dtFirstStart > dtSecondStart ? dtFirstStart : dtSecondStart;
+			DateTime dtOverlapEnd = dtFirstEnd < dtSecondEnd ? dtFirstEnd : dtSecondEnd;
+
+			if (dtOverlapStart > dtOverlapEnd)
+				{return 0;}
+
+			return (dtOverlapEnd - dtOverlapStart).Days + 1;
+		}
+
+		private static long CalculateNaturalSum(int iNum)
+		{
+			if (iNum <= 0)
+				{return 0;}
+
+			return iNum + CalculateNaturalSum(iNum - 1);
+		}
+
 		private static int SafeReadInteger(string message)
 		{
 			while (true)
@@ -107,6 +169,20 @@ namespace lab1
 				}
 
 				Console.WriteLine("Parse error. Please enter a valid number.");
+			}
+		}
+
+		private static DateTime SafeReadDate(string message)
+		{
+			while (true)
+			{
+				Console.Write(message + " (DD.MM.YYYY): ");
+				string sValue = Console.ReadLine();
+
+				if (DateTime.TryParseExact(sValue, "dd.MM.yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime dtValue))
+					return dtValue;
+
+				Console.WriteLine("Parse error.");
 			}
 		}
 	}
