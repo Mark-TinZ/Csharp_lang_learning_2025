@@ -46,3 +46,4 @@ internal class Program
 		// int iMenu = Convert.ToInt32(Console.ReadLine());
 		return InputHelper.SafeReadInteger(">>");
 	}
+}
