@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using lab1.Tasks;
 using lab1.Helpers;
+using System.Xml.Linq;
 
 namespace lab1;
 internal class Program
 {
-
-	private static List<Tasks.Task> tasks = new List<Tasks.Task>
+	private static List<Tasks.Task> _tasks = new()
 	{
 		new ExitTask(),
 		new HelloWorldTask(),
@@ -18,32 +19,47 @@ internal class Program
 
 	static void Main(string[] args)
 	{
+		Console.WriteLine("C# lab application");
+		Console.WriteLine();
+
 		while (true)
 		{
-
-			int menuItem = GetMenuItem();
-
-			if (menuItem < 0 || menuItem >= tasks.Count)
+			try
 			{
-				Console.WriteLine("Error choice");
-				continue;
+				DisplayMenu();
+				int choice = GetMenuChoice();
+				ExecuteTask(choice);
 			}
-
-			tasks[menuItem].execute();
-			Console.WriteLine();
+			catch (System.Exception ex)
+			{
+				Console.WriteLine($"Unexpected error: {ex.Message}");
+				Console.WriteLine();
+			}
 		}
 	}
 
-	private static int GetMenuItem()
+	private static void DisplayMenu()
 	{
-		Console.WriteLine("Menu item:");
-		Console.WriteLine("[0] Exit");
-		Console.WriteLine("[1] Hello World!");
-		Console.WriteLine("[2] Calc: (X+Y)/Z+sqrt(X)");
-		Console.WriteLine("[3] Recursion date");
-		Console.WriteLine("[4] String");
+		Console.WriteLine("Menu:");
+		foreach (var task in _tasks.OrderBy(t => t.MenuOrder))
+		{
+			Console.WriteLine($"[{task.MenuOrder}] {task.Name}");
+		}
+	}
 
-		// int iMenu = Convert.ToInt32(Console.ReadLine());
-		return InputHelper.SafeReadInteger(">>");
+	private static int GetMenuChoice()
+	{
+		return InputHelper.SafeReadInteger(">>", choice => choice >= 0 && choice < _tasks.Count);
+	}
+
+	private static void ExecuteTask(int choice)
+	{
+		var task = _tasks.FirstOrDefault(t => t.MenuOrder == choice);
+		if (task != null)
+		{
+			Console.WriteLine();
+			task.Execute();
+			Console.WriteLine();
+		}
 	}
 }
