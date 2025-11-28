@@ -14,4 +14,10 @@ public class ExitTask : Task
 		Console.WriteLine("Exit");
 		Environment.Exit(0);
 	}
+
+	public override void Execute(Dictionary<string, string> args)
+	{
+		Console.WriteLine("Что такой умный что ли?");
+		Execute();
+	}
 }

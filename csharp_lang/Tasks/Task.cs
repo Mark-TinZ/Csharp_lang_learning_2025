@@ -10,6 +10,11 @@ public abstract class Task
 
 	public abstract void Execute();
 
+	public virtual void Execute(Dictionary<string, string> args)
+	{
+		throw new NotImplementedException($"Task {Name} does not support command line execution.");
+	}
+
 	protected virtual void DisplayHeader()
 	{
 		Console.WriteLine($"=== {Name} ===");

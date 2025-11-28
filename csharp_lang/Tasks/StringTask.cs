@@ -32,6 +32,17 @@ public class StringTask : Task
 		}
 	}
 
+	public override void Execute(Dictionary<string, string> args)
+	{
+		DisplayHeader();
+
+		string str1 = InputHelper.SafeReadStringArgs(args, "-s1", ValidateString);
+		string str2 = InputHelper.SafeReadStringArgs(args, "-s2", ValidateString);
+
+		// Вызываем нашу мульти функцию с проверками
+			ProcessStringValidations(str1, str2);
+	}
+
 	private void ProcessStringValidations(string str1, string str2)
 	{
 		Console.WriteLine("Exact match: " + StringAnalyzer.CheckExactMatch(str1, str2));

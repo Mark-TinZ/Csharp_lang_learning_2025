@@ -12,4 +12,9 @@ public class HelloWorldTask : Task
 		DisplayHeader();
 		Console.WriteLine("Hello World!");
 	}
+
+	public override void Execute(Dictionary<string, string> args)
+	{
+		Execute();
+	}
 }

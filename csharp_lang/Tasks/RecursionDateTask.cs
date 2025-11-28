@@ -41,4 +41,26 @@ public class RecursionDateTask : Task
 			DisplayError(ex.Message);
 		}
 	}
+
+	public override void Execute(Dictionary<string, string> args)
+	{
+		DisplayHeader();
+
+		DateTime firstStart = InputHelper.SafeReadDateArgs(args, "-d1st");
+		DateTime firstEnd = InputHelper.SafeReadDateArgs(args, "-d1end", end => end >= firstStart);
+		DateTime secondStart = InputHelper.SafeReadDateArgs(args, "-d2st");
+		DateTime secondEnd = InputHelper.SafeReadDateArgs(args, "-d2end", end => end >= secondStart);
+
+		int overlapDays = DateCalculator.CalculateOverlapDays(firstStart, firstEnd, secondStart, secondEnd);
+
+		if (overlapDays > 0)
+		{
+			long sum = DateCalculator.CalculateNaturalSum(overlapDays);
+			DisplayResult($"Sum of natural numbers up to {overlapDays} is {sum}");
+		}
+		else
+		{
+			DisplayResult("No overlap between date ranges");
+		}	
+	}
 }

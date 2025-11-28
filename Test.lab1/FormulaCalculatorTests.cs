@@ -19,7 +19,7 @@ namespace Tests.lab1
 			double y = 6;
 			double z = 2;
 
-			double result = FormulaCalculator.Calculate(x, y, z);
+			double result = FormulaCalculator.Calculate(x = 4, y = 6, z = 2);
 			
 			// Для дробного значения использую проверки приблизительно с погрешностью.
 			Assert.AreEqual(7, result, 0.001);
